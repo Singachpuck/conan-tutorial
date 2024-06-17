@@ -1,0 +1,3 @@
+[submodule "linkholderlib"]
+	path = linkholderlib
+	url = https://github.com/Singachpuck/linkholderlib.git
