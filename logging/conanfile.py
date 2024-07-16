@@ -26,6 +26,7 @@ class LoggingOtelRecipe(ConanFile):
     def requirements(self):
         self.requires("{}@{}/{}".format(self._otel_package, self._core_dep_conanuser, self.channel))
         self.requires("oatpp/1.3.0")
+        self.requires("spdlog/1.14.1")
 
     def build_requirements(self):
         self.build_requires("cmake/3.17.3@thirdparty/stable")
