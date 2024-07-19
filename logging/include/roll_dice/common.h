@@ -7,8 +7,13 @@
 
 #include "telemetry/logger_common.h"
 
-const char* ROLL_DICE_HOST = "localhost";
-const std::uint16_t ROLL_DICE_PORT = 8080;
+#ifndef ROLL_DICE_HOST
+    #define ROLL_DICE_HOST "localhost"
+#endif
+
+#ifndef ROLL_DICE_PORT
+    #define ROLL_DICE_PORT 8080
+#endif
 
 inline void roll_dice_init() {
     auto logger = getLogger();

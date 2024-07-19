@@ -2,6 +2,8 @@ set(SOURCES roll_dice.cc)
 
 add_executable(${ROLL_DICE_EXECUTABLE} ${SOURCES})
 
+target_compile_definitions(${ROLL_DICE_EXECUTABLE} PUBLIC WITH_OTEL_LOGS)
+
 if (NOT oatpp_VERSION_STRING)
   message(SEND_ERROR "Did not find oatpp library.")
 endif()
