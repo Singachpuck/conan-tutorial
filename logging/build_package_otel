@@ -1,0 +1,3 @@
+[env]
+CC=/home/dochkas/.conan/data/gcc/8.2.0/thirdparty/stable/package/4db1be536558d833e52e862fd84d64d75c2b3656/bin/gcc
+CXX=/home/dochkas/.conan/data/gcc/8.2.0/thirdparty/stable/package/4db1be536558d833e52e862fd84d64d75c2b3656/bin/g++

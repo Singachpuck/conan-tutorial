@@ -10,6 +10,7 @@
 
 #include "project_config.h"
 #include "spdlog/spdlog.h"
+#include "spdlog/mdc.h"
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "opentelemetry/instrumentation/spdlog/sink.h"
@@ -40,26 +41,35 @@ namespace {
         std::vector<spdlog::sink_ptr> sinks {};
 
         // Default sinks
-        auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("example.log", true);
+        auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_st>("example.log", true);
         file_sink->set_level(spdlog::level::warn);
         file_sink->set_pattern("[multi_sink_example] [%^%l%$] %v");
 
-        auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+        auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_st>();
         console_sink->set_level(spdlog::level::trace);
+        console_sink->set_pattern("[%H:%M:%S %z] [%^%L%$] [%&] %v");
 
         sinks.push_back(file_sink);
         sinks.push_back(console_sink);
 
         auto def_logger = std::make_shared<spdlog::logger> ("default_logger", sinks.begin(), sinks.end());
         def_logger->set_level(spdlog::level::trace);
+        def_logger->should_backtrace();
 
         spdlog::set_default_logger(def_logger);
     }
 }
 
 int main() {
+
     initOtel();
     initLogger();
+    
+    spdlog::mdc::put("key1", "value1");
+    spdlog::mdc::put("key2", "value2");
+
+    // BUG: I don't know why but MDC (%&) is not displayed...
+    spdlog::set_pattern("[%H:%M:%S %z] [%^%L%$] [%&] %v");
 
     spdlog::trace("Trace...");
     spdlog::debug("Debugging info.");
@@ -67,7 +77,7 @@ int main() {
     spdlog::warn("Warning!");
     spdlog::error("Error occured!!");
     spdlog::critical("Fatal error!!!");
-    
+
     spdlog::info("\n\nSwitching to OpenTelemetry logger...\n\n");
     /*
         Steps:

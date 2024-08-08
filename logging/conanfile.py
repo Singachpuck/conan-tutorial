@@ -20,75 +20,47 @@ class LoggingOtelRecipe(ConanFile):
     @property
     def _otel_package(self): return "{}/{}".format(self._otel_package_name, self._otel_version)
 
+    _oatpp_package_name = "oatpp"
+    _oatpp_version = "1.3.0"
+
+    @property
+    def _oatpp_package(self): return "{}/{}".format(self._oatpp_package_name, self._oatpp_version)
+
+    _spdlog_package_name = "spdlog"
+    _spdlog_version = "1.14.1"
+    
+    @property
+    def _spdlog_package(self): return "{}/{}".format(self._spdlog_package_name, self._spdlog_version)
+
+    _boost_package_name = "boost"
+    _boost_version = "1.85.0"
+
+    @property
+    def _boost_package(self): return "{}/{}".format(self._boost_package_name, self._boost_version)
+
+    _nlohmann_package_name = "nlohmann_json"
+    _nlohmann_version = "3.11.3"
+
+    @property
+    def _nlohmann_package(self): return "{}/{}".format(self._nlohmann_package_name, self._nlohmann_version)
+
+    _cmake_package_name = "cmake"
+    _cmake_version = "3.17.3"
+
+    @property
+    def _cmake_package(self): return "{}/{}".format(self._cmake_package_name, self._cmake_version)
+
     @property
     def _core_dep_conanuser(self): return "thirdparty"
 
+
     def requirements(self):
         self.requires("{}@{}/{}".format(self._otel_package, self._core_dep_conanuser, self.channel))
-        self.requires("oatpp/1.3.0")
-        self.requires("spdlog/1.14.1")
+        self.requires("zlib/1.2.13@thirdparty/stable", override=True)
+        self.requires(self._oatpp_package)
+        self.requires(self._spdlog_package)
+        self.requires(self._boost_package)
+        self.requires(self._nlohmann_package)
 
     def build_requirements(self):
-        self.build_requires("cmake/3.17.3@thirdparty/stable")
-        if self.settings.compiler == "gcc" and self._gcc_use_from_package:
-            self.build_requires("{}@{}/{}".format(self._gcc_package, self._core_dep_conanuser, self.channel))
-
-    def _configure_cmake(self):
-        cmake = CMake()
-
-        # It seems this is not correctly passed through
-        if self.settings.os == "Linux":
-            # This should just work given that CONAN_LIBCXX is defined, but it is not
-            # so we force it here.
-            libcxx = self.settings.get_safe("compiler.libcxx")
-            if str(libcxx) == 'libstdc++':
-                cmake.definitions["CMAKE_CXX_FLAGS"] = "-D_GLIBCXX_USE_CXX11_ABI=0"
-            elif str(libcxx) == 'libstdc++11':
-                cmake.definitions["CMAKE_CXX_FLAGS"] = "-D_GLIBCXX_USE_CXX11_ABI=1"
-        else:
-            cmake.definitions["CMAKE_CXX_FLAGS"] = "-DNOMINMAX"
-
-        if self.settings.compiler == "gcc" and self._gcc_use_from_package:
-            self.output.info("GCC_ROOT={}".format(self.deps_cpp_info[self._gcc_package_name].rootpath))
-            cmake.definitions["CMAKE_C_COMPILER"] = os.path.join(
-                self.deps_cpp_info[self._gcc_package_name].rootpath,
-                "bin",
-                "gcc"
-            )
-            cmake.definitions["CMAKE_CXX_COMPILER"] = os.path.join(
-                self.deps_cpp_info[self._gcc_package_name].rootpath,
-                "bin",
-                "g++"
-            )
-
-        # cmake.definitions["CMAKE_INSTALL_RPATH"] = "\$ORIGIN/../lib"
-        #cmake.definitions["CMAKE_BUILD_TYPE"] = "Release"
-
-        # cmake.definitions["ZLIB_ROOT"] = self.deps_cpp_info[self._zlib_package_name].rootpath
-        # self.output.info("ZLIB_ROOT={}".format(cmake.definitions["ZLIB_ROOT"]))
-
-        # cmake.definitions["OPENSSL_ROOT_DIR"] = self.deps_cpp_info[self._openssl_package_name].rootpath
-        # cmake.definitions["OPENSSL_INCLUDE_DIR"] = os.path.join(
-        #     self.deps_cpp_info[self._openssl_package_name].rootpath,
-        #     "include"
-        # )
-
-        # Due to a case mismatch grpc expects OPENSSL_LIBRARIES, where as we provide
-        # OpenSSL_LIBRARIES, the same for the includes dir. So this works around that.
-        #cmake.definitions["OPENSSL_LIBRARIES"] = "OpenSSL::OpenSSL"
-
-        # cmake.definitions["OPENSSL_USE_STATIC_LIBS"] = self._openssl_shared
-        # self.output.info("OPENSSL_ROOT_DIR={}".format(cmake.definitions["OPENSSL_ROOT_DIR"]))
-
-        # # Configure OpenTelemetry-Cpp
-        # cmake.definitions["BUILD_TESTING"] = False
-        # cmake.definitions["BUILD_BENCHMARK"] = False
-        # cmake.definitions["WITH_EXAMPLES"] = False
-
-        cmake.verbose = True
-        cmake.configure()
-        return cmake
-
-    def build(self):
-        cmake = self._configure_cmake()
-        cmake.build()
+        self.build_requires("{}@{}/{}".format(self._cmake_package, self._core_dep_conanuser, self.channel))

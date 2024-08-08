@@ -1,6 +1,11 @@
 
 if (WITH_EXAMPLES)
-    target_include_directories(${EXECUTABLE_NAME} PUBLIC
+    target_include_directories(${LOGGING_EXECUTABLE_NAME} PUBLIC
+        logging
+        ${CMAKE_BINARY_DIR}/configured_files/include)
+
+    target_include_directories(${MDC_EXECUTABLE_NAME} PUBLIC
+        logging
         ${CMAKE_BINARY_DIR}/configured_files/include)
 endif (WITH_EXAMPLES)
 
