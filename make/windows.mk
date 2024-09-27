@@ -6,3 +6,6 @@ CXX := g++
 
 BUILD_DIR := build
 
+clean:
+	powershell -Command "Remove-Item -Path $(BUILD_DIR) -Recurse -Force"
+	mkdir $(BUILD_DIR)
