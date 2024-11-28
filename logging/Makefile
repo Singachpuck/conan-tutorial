@@ -1,4 +1,4 @@
-include config.mk
+-include config.mk
 
 SPDLOG_SINK_PATH := /home/dochkas/projects/opentelemetry-cpp-contrib/instrumentation/spdlog/build/install
 

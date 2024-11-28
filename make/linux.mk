@@ -7,7 +7,3 @@ PROTOC := ${CONAN_USER_HOME}/.conan/data/protoc/3.19.6.1/thirdparty/stable/packa
 
 GRPC_PLUGIN := $(CONAN_USER_HOME)/.conan/data/grpc_plugins/1.46.7.9/thirdparty/stable/package/1036933dfdff90461d4bf4154f59e6aa78392d87/bin/grpc_cpp_plugin
 BUILD_DIR := build
-
-clean:
-	rm -rf $(BUILD_DIR)
-	mkdir $(BUILD_DIR)
