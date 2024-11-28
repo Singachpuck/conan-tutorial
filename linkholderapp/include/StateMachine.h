@@ -11,7 +11,7 @@ extern State* STATES[];
 
 class StateMachine {
 private:
-    std::map<StateName, State*> states {};
+    std::unordered_map<StateName, State*> states {};
     State* current = nullptr;
 
 public:
@@ -21,7 +21,7 @@ public:
 
     void change(StateName newState);
 
-    std::unique_ptr<Parameters> getNextCandidate(Parameters& params);
+    std::unique_ptr<Parameters> getNextCandidate(Parameters&& params);
 
     void next();
 

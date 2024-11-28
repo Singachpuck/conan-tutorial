@@ -9,7 +9,7 @@ public:
 
     void init() override;
     void onEnter() override;
-    std::unique_ptr<Parameters> getNextCandidate(Parameters& params) override;
+    std::unique_ptr<Parameters> getNextCandidate(Parameters&& params) override;
     void next() override;
     void onExit() override;
     void destroy() override;

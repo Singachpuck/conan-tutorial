@@ -2,20 +2,24 @@
 
 #include "states/IdleState.h"
 #include "states/MainState.h"
+#include "states/ExitState.h"
 
 IdleState idleState;
 
 MainState mainState;
 
+ExitState exitState;
+
 State* STATES[] = {
     &idleState,
-    &mainState
+    &mainState,
+    &exitState
 };
 
 StateMachine::StateMachine() {
 	// std::cout << "Here" << std::endl;
 
-    for (size_t i = 0; i < 2; i++) {
+    for (size_t i = 0; i < 3; i++) {
         this->states.insert({STATES[i]->getName(), STATES[i]});   
     }
 }
@@ -34,8 +38,8 @@ void StateMachine::change(StateName newState) {
     this->current->onEnter();
 }
 
-std::unique_ptr<Parameters> StateMachine::getNextCandidate(Parameters &params) {
-    return this->current->getNextCandidate(params);
+std::unique_ptr<Parameters> StateMachine::getNextCandidate(Parameters&& params) {
+    return this->current->getNextCandidate(std::move(params));
 }
 
 void StateMachine::next() {

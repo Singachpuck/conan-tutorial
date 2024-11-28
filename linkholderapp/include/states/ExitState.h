@@ -1,15 +1,16 @@
-#ifndef LINKHOLDER_CONSOLE_MAIN_STATE_H
-#define LINKHOLDER_CONSOLE_MAIN_STATE_H
+#ifndef LINKHOLDER_CONSOLE_EXIT_STATE_H
+#define LINKHOLDER_CONSOLE_EXIT_STATE_H
 
 #include "IdleState.h"
 #include "util/commands.h"
+#include "exceptions/ExitException.h"
 
-class MainState : public State {
+class ExitState : public State {
 private:
-    Commands commands;
+    ExitException ex;
 
 public:
-    MainState();
+    ExitState();
     
     void init() override;
     void onEnter() override;
@@ -17,9 +18,6 @@ public:
     void next() override;
     void onExit() override;
     void destroy() override;
-
-private:
-    void print_main_menu();
 };
 
 #endif

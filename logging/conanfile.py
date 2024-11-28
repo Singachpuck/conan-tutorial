@@ -15,7 +15,8 @@ class LoggingOtelRecipe(ConanFile):
     def _gcc_package(self):  return "{}/{}".format(self._gcc_package_name, self._gcc_version)
 
     _otel_package_name = "opentelemetry-cpp"
-    _otel_version = "1.14.2.0"
+    # _otel_version = "1.14.2.0"
+    _otel_version = "1.14.2"
 
     @property
     def _otel_package(self): return "{}/{}".format(self._otel_package_name, self._otel_version)
@@ -55,12 +56,14 @@ class LoggingOtelRecipe(ConanFile):
 
 
     def requirements(self):
-        self.requires("{}@{}/{}".format(self._otel_package, self._core_dep_conanuser, self.channel))
-        self.requires("zlib/1.2.13@thirdparty/stable", override=True)
+        # self.requires("{}@{}/{}".format(self._otel_package, self._core_dep_conanuser, self.channel))
+        self.requires(self._otel_package)
+        # self.requires("zlib/1.2.13@thirdparty/stable", override=True)
         self.requires(self._oatpp_package)
         self.requires(self._spdlog_package)
         self.requires(self._boost_package)
         self.requires(self._nlohmann_package)
 
     def build_requirements(self):
-        self.build_requires("{}@{}/{}".format(self._cmake_package, self._core_dep_conanuser, self.channel))
+        # self.build_requires("{}@{}/{}".format(self._cmake_package, self._core_dep_conanuser, self.channel))
+        pass

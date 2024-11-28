@@ -6,7 +6,7 @@
 #include "util/utils.h"
 
 enum StateName {
-    IDLE, MAIN, MODIFY_URL, ADD_URL, UNKNOWN
+    IDLE, MAIN, MODIFY_URL, ADD_URL, EXIT, UNKNOWN
 };
 
 class State {
@@ -19,7 +19,7 @@ public:
     virtual void init() = 0;
     virtual void onEnter() = 0;
     virtual void next() = 0;
-    virtual std::unique_ptr<Parameters> getNextCandidate(Parameters& params) = 0;
+    virtual std::unique_ptr<Parameters> getNextCandidate(Parameters&& params) = 0;
     virtual void onExit() = 0;
     virtual void destroy() = 0;
 

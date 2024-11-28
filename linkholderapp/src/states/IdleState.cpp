@@ -11,7 +11,7 @@ void IdleState::onEnter() {
     // Nothing to do
 }
 
-std::unique_ptr<Parameters> IdleState::getNextCandidate(Parameters &params)
+std::unique_ptr<Parameters> IdleState::getNextCandidate(Parameters &&params)
 {
     throw std::exception();
     // return std::unique_ptr<Parameters>();

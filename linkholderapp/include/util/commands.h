@@ -9,7 +9,7 @@
 
 
 enum CommandName {
-    MAIN_LIST_URLS
+    MAIN_LIST_URLS, MAIN_ADD_URL, MAIN_UPDATE_URL, EXIT_COMMAND
 };
 
 struct Command {
