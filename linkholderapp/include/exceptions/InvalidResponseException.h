@@ -7,6 +7,10 @@
  * Exception in case if state returns unexpected response.
  */
 class InvalidResponseException : public BaseHandleException {
+
+    const char* what() const noexcept override {
+        return "InvalidResponseException";
+    }
 };
 
 #endif

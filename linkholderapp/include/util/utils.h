@@ -1,6 +1,7 @@
 #ifndef LINKHOLDER_CONSOLE_UTILS_H
 #define LINKHOLDER_CONSOLE_UTILS_H
 
+#include <string>
 #include <unordered_map>
 #include <any>
 

@@ -17,11 +17,11 @@ class CompressorRecipe(ConanFile):
     @property
     def _linkholderlib_package(self): return "{}/{}".format(self._linkholderlib_package_name, self._linkholderlib_version)
 
-    _cmake_package_name = "cmake"
-    _cmake_version = "3.22.6"
+    # _cmake_package_name = "cmake"
+    # _cmake_version = "3.22.6"
 
-    @property
-    def _cmake_package(self): return "{}/{}".format(self._cmake_package_name, self._cmake_version)
+    # @property
+    # def _cmake_package(self): return "{}/{}".format(self._cmake_package_name, self._cmake_version)
 
     def configure(self):
         if self.settings.compiler == "gcc":
@@ -31,5 +31,5 @@ class CompressorRecipe(ConanFile):
         self.requires(self._boost_package)
         self.requires(self._linkholderlib_package)
 
-    def build_requirements(self):
-        self.tool_requires(self._cmake_package)
+    # def build_requirements(self):
+    #     self.tool_requires(self._cmake_package)

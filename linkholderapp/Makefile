@@ -7,7 +7,7 @@ all: clean c-install generate b
 # roll-dice: clean c-install generate-roll b
 
 c-install:
-	$(CONAN) install -pr:a telemetry_ansys -of=$(BUILD_DIR) . 
+	$(CONAN) install -of=$(BUILD_DIR) . 
 
 generate:
 	$(CMAKE_GENERATE_COMMAND)

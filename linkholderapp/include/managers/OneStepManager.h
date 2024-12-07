@@ -7,7 +7,7 @@ class OneStepManager : public AppManager {
 private:
 
 public:
-    OneStepManager(std::shared_ptr<UrlManager>, std::shared_ptr<StateMachine> sm, std::shared_ptr<ExceptionHandler> ex);
+    OneStepManager(std::shared_ptr<StateMachine> sm, std::shared_ptr<ExceptionHandler> ex);
 
     void launch();
     void step();

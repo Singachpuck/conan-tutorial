@@ -2,9 +2,7 @@
 
 #include <iostream>
 #include <string>
-#include <cstdint>
 
-#include "states/MainState.h"
 #include "exceptions/UserInputError.h"
 
 MainState::MainState() : State(MAIN) {}
@@ -12,6 +10,18 @@ MainState::MainState() : State(MAIN) {}
 void MainState::init() {
     this->commands.push_back({
         MAIN_LIST_URLS, "List Urls", [this] (Parameters& params) -> std::unique_ptr<Parameters> {
+            auto manager = this->context->getUrlManager();
+            std::cout << "Listing urls..." << std::endl;
+            std::uint32_t i{};
+            auto& urlMap = *manager->getUrls();
+            if (urlMap.empty()) {
+                std::cout << "Note: Nothing to show!" << std::endl;
+            }
+            for (auto& [id, url] : urlMap) {
+                std::cout << i << '.' << url.getAddr() << std::endl;
+                i++;
+            }
+
             auto response = std::make_unique<Parameters>();
             return response;
         }
@@ -38,10 +48,12 @@ void MainState::init() {
             return response;
         }
     });
+
+    this->context = context::get();
 }
 
 void MainState::onEnter() {
-    std::cout << "Link Holder Console App\n" << std::endl;
+    std::cout << "Link Holder Console App" << std::endl;
 }
 
 std::unique_ptr<Parameters> MainState::getNextCandidate(Parameters&& params) {
@@ -52,13 +64,13 @@ std::unique_ptr<Parameters> MainState::getNextCandidate(Parameters&& params) {
         std::uint32_t command_n = std::stoul(input);
 
         if (this->commands.size() <= command_n) {
-            result->emplace(USER_INPUT_ERROR_PARAM_KEY, std::make_shared<UserInputError>(std::move(input), "Command not found"));
+            result->emplace(USER_INPUT_ERROR_PARAM_KEY, UserInputError(std::move(input), "Command not found"));
             return result;
         }
 
         return this->commands[command_n].handler(params);
     } catch (const std::exception& e) {
-        result->emplace(USER_INPUT_ERROR_PARAM_KEY, std::make_shared<UserInputError>(std::move(input), "Invalid command"));
+        result->emplace(USER_INPUT_ERROR_PARAM_KEY, UserInputError(std::move(input), "Command must be a number"));
     }
     return result;
 }
@@ -76,9 +88,9 @@ void MainState::destroy() {
 }
 
 void MainState::print_main_menu() {
-    std::cout << "Select an option:" << std::endl;
+    std::cout << "\nSelect an option:" << std::endl;
     for (size_t i = 0; i < commands.size(); i++) {
         std::cout << i << ". " << commands[i].description << std::endl;
     }
-    std::cout << "Enter command: ";
+    std::cout << "\nEnter command: ";
 }

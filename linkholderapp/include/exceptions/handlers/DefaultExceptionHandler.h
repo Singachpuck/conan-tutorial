@@ -6,7 +6,7 @@
 
 class DefaultExceptionHandler : public ExceptionHandler {
 public:
-    void handle(BaseHandleException& ex) override;
+    void handle(const BaseHandleException& ex) override;
 };
 
 #endif

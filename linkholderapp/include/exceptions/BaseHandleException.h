@@ -8,6 +8,9 @@
  * Should be inherited by all the project exceptions but ExitException.
  */
 class BaseHandleException : public std::exception {
+public:
+    BaseHandleException() = default;
+    explicit BaseHandleException(const char* const message) : std::exception(message) {}
 };
 
 #endif

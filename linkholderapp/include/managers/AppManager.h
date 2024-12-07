@@ -14,7 +14,7 @@ private:
     std::shared_ptr<ExceptionHandler> exHandler;
 
 public:
-    AppManager(std::shared_ptr<UrlManager>, std::shared_ptr<StateMachine>, std::shared_ptr<ExceptionHandler>);
+    AppManager(std::shared_ptr<StateMachine>, std::shared_ptr<ExceptionHandler>);
     ~AppManager();
     virtual void launch() = 0;
     virtual void step() = 0;

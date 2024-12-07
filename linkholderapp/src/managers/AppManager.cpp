@@ -1,7 +1,9 @@
+#include <utility>
+
 #include "managers/AppManager.h"
 
-AppManager::AppManager(std::shared_ptr<UrlManager> um, std::shared_ptr<StateMachine> sm, std::shared_ptr<ExceptionHandler> exHandler)
-    : urlManager(um), sm(sm), exHandler(exHandler) {
+AppManager::AppManager(std::shared_ptr<StateMachine> sm, std::shared_ptr<ExceptionHandler> exHandler)
+    : sm(std::move(sm)), exHandler(std::move(exHandler)) {
 }
 
 AppManager::~AppManager() {

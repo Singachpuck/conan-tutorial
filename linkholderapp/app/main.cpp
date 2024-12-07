@@ -4,12 +4,15 @@
 #include "managers/OneStepManager.h"
 #include "exceptions/handlers/DefaultExceptionHandler.h"
 #include "StateMachine.h"
+#include "context.h"
 
 int main() {
 	auto um = std::make_shared<UrlManager>("Name");
 	auto sm = std::make_shared<StateMachine>();
 	auto ex = std::make_shared<DefaultExceptionHandler>();
-	OneStepManager manager(um, sm, ex);
+    auto context = context::ContextFactory::initSharedContext(um);
+
+	OneStepManager manager(sm, ex);
 
 	manager.launch();
 

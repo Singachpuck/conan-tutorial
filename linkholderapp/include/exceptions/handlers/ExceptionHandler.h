@@ -7,7 +7,7 @@
 
 class ExceptionHandler {
 public:
-    virtual void handle(BaseHandleException& ex) = 0;
+    virtual void handle(const BaseHandleException& ex) = 0;
 };
 
 #endif

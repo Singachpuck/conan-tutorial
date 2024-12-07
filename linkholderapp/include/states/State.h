@@ -4,14 +4,16 @@
 #include <memory>
 
 #include "util/utils.h"
+#include "context.h"
 
 enum StateName {
     IDLE, MAIN, MODIFY_URL, ADD_URL, EXIT, UNKNOWN
 };
 
 class State {
-private:
-    StateName name {IDLE};
+protected:
+    StateName name {UNKNOWN};
+    std::shared_ptr<context::Context> context;
 
 public:
     State(StateName name);
