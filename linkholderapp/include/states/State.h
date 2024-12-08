@@ -7,7 +7,7 @@
 #include "context.h"
 
 enum StateName {
-    IDLE, MAIN, MODIFY_URL, ADD_URL, EXIT, UNKNOWN
+    IDLE, MAIN, MODIFY_URL, ADD_URL, REGISTER_URL, EXIT, UNKNOWN
 };
 
 class State {
@@ -16,13 +16,13 @@ protected:
     std::shared_ptr<context::Context> context;
 
 public:
-    State(StateName name);
+    explicit State(StateName name);
 
     virtual void init() = 0;
-    virtual void onEnter() = 0;
+    virtual void onEnter(const Parameters& params) = 0;
     virtual void next() = 0;
     virtual std::unique_ptr<Parameters> getNextCandidate(Parameters&& params) = 0;
-    virtual void onExit() = 0;
+    virtual std::unique_ptr<Parameters> onExit() = 0;
     virtual void destroy() = 0;
 
     StateName getName();

@@ -18,7 +18,7 @@ void MainState::init() {
                 std::cout << "Note: Nothing to show!" << std::endl;
             }
             for (auto& [id, url] : urlMap) {
-                std::cout << i << '.' << url.getAddr() << std::endl;
+                std::cout << i + 1 << ". " << url.getAddr() << std::endl;
                 i++;
             }
 
@@ -30,6 +30,7 @@ void MainState::init() {
     this->commands.push_back({
         MAIN_ADD_URL, "Add Url", [this] (Parameters& params) -> std::unique_ptr<Parameters> {
             auto response = std::make_unique<Parameters>();
+            response->emplace(CHANGE_STATE_PARAM_KEY, ADD_URL);
             return response;
         }
     });
@@ -52,7 +53,7 @@ void MainState::init() {
     this->context = context::get();
 }
 
-void MainState::onEnter() {
+void MainState::onEnter(const Parameters& params) {
     std::cout << "Link Holder Console App" << std::endl;
 }
 
@@ -79,8 +80,9 @@ void MainState::next() {
     this->print_main_menu();
 }
 
-void MainState::onExit() {
+std::unique_ptr<Parameters> MainState::onExit() {
     // Nothing to do
+    return std::make_unique<Parameters>();
 }
 
 void MainState::destroy() {

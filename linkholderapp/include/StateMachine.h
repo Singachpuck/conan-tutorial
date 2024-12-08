@@ -5,17 +5,21 @@
 #include <cstdint>
 #include "states/State.h"
 
-const std::uint8_t STATE_SIZE = 5;
+//const std::uint8_t STATE_SIZE = 5;
 
-extern State* STATES[];
+//extern State* STATES[];
 
 class StateMachine {
 private:
-    std::unordered_map<StateName, State*> states {};
-    State* current = nullptr;
+    std::unordered_map<StateName, std::shared_ptr<State>> states {};
+    std::shared_ptr<State> current = nullptr;
 
 public:
     StateMachine();
+
+    std::shared_ptr<State> getCurrentState() const {
+        return this->current;
+    }
 
     void init();
 

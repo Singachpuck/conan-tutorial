@@ -3,24 +3,32 @@
 #include "states/IdleState.h"
 #include "states/MainState.h"
 #include "states/ExitState.h"
+#include "states/AddUrlState.h"
+#include "states/RegisterUrlState.h"
 
-IdleState idleState;
+//IdleState idleState;
+//
+//MainState mainState;
+//
+//ExitState exitState;
+//
+//State* STATES[] = {
+//    &idleState,
+//    &mainState,
+//    &exitState
+//};
 
-MainState mainState;
-
-ExitState exitState;
-
-State* STATES[] = {
-    &idleState,
-    &mainState,
-    &exitState
+std::vector<std::shared_ptr<State>> STATES {
+    std::make_shared<IdleState>(),
+    std::make_shared<MainState>(),
+    std::make_shared<AddUrlState>(),
+    std::make_shared<RegisterUrlState>(),
+    std::make_shared<ExitState>()
 };
 
 StateMachine::StateMachine() {
-	// std::cout << "Here" << std::endl;
-
-    for (size_t i = 0; i < 3; i++) {
-        this->states.insert({STATES[i]->getName(), STATES[i]});   
+    for (auto & i : STATES) {
+        this->states.insert({i->getName(), i});
     }
 }
 
@@ -31,11 +39,14 @@ void StateMachine::init() {
 }
 
 void StateMachine::change(StateName newState) {
-    if (this->current != nullptr) {
-        this->current->onExit();
+    if (this->current != nullptr && this->current->getName() == newState) {
+        return;
     }
+
+    std::unique_ptr<Parameters> params = this->current != nullptr ? this->current->onExit()
+            : std::make_unique<Parameters>();
     this->current = states.at(newState);
-    this->current->onEnter();
+    this->current->onEnter(*params);
 }
 
 std::unique_ptr<Parameters> StateMachine::getNextCandidate(Parameters&& params) {

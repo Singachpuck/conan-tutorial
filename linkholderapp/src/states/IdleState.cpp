@@ -7,7 +7,7 @@ void IdleState::init()
     // Nothing to do
 }
 
-void IdleState::onEnter() {
+void IdleState::onEnter(const Parameters&) {
     // Nothing to do
 }
 
@@ -21,8 +21,9 @@ void IdleState::next() {
     // Nothing to do
 }
 
-void IdleState::onExit() {
+std::unique_ptr<Parameters> IdleState::onExit() {
     // Nothing to do
+    return std::make_unique<Parameters>();
 }
 
 void IdleState::destroy() {

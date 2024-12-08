@@ -12,10 +12,10 @@ public:
     MainState();
     
     void init() override;
-    void onEnter() override;
+    void onEnter(const Parameters& params) override;
     std::unique_ptr<Parameters> getNextCandidate(Parameters&& params) override;
     void next() override;
-    void onExit() override;
+    std::unique_ptr<Parameters> onExit() override;
     void destroy() override;
 
 private:

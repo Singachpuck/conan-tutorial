@@ -6,7 +6,7 @@ ExitState::ExitState() : State(StateName::EXIT) {}
 
 void ExitState::init() {}
 
-void ExitState::onEnter() {
+void ExitState::onEnter(const Parameters&) {
     std::cout << "Exiting application..." << std::endl;
 }
 
@@ -18,6 +18,8 @@ void ExitState::next() {
     throw this->ex;
 }
 
-void ExitState::onExit() {}
+std::unique_ptr<Parameters> ExitState::onExit() {
+    return std::make_unique<Parameters>();
+}
 
 void ExitState::destroy() {}

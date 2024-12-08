@@ -6,6 +6,7 @@
 #include "exceptions/ExitException.h"
 #include "exceptions/UserInputError.h"
 #include "util/utils.h"
+#include "states/ITransitState.h"
 
 OneStepManager::OneStepManager(std::shared_ptr<StateMachine> sm, std::shared_ptr<ExceptionHandler> ex)
     : AppManager(std::move(sm), std::move(ex)) {
@@ -37,13 +38,15 @@ void OneStepManager::launch() {
 void OneStepManager::step() {
     this->getStateMachine()->next();
 
-    // Create a service for this
-    std::string s;
-    std::cin >> s;
+    auto params = Parameters();
+    if (!dynamic_cast<ITransitState*>(this->getStateMachine()->getCurrentState().get())) {
+        // Create a service for this
+        std::string s;
+        std::cin >> s;
+        params.emplace(USER_INPUT_PARAM_KEY, s);
+    }
 
-    std::unique_ptr<Parameters> nextState = this->getStateMachine()->getNextCandidate({
-        {USER_INPUT_PARAM_KEY, s}
-    });
+    std::unique_ptr<Parameters> nextState = this->getStateMachine()->getNextCandidate(std::move(params));
 
     if (nextState->count(USER_INPUT_ERROR_PARAM_KEY) > 0) {
         auto err = std::any_cast<UserInputError>(nextState->at(USER_INPUT_ERROR_PARAM_KEY));
